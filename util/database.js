@@ -3,26 +3,27 @@ const MongoClient = mongodb.MongoClient;
 
 let _db;
 
-const mongoConnect = (callback) => {
-  MongoClient.connect('mongodb://shop:WZc5JkqRFgUE0cnv@cluster0-shard-00-00-tvcny.mongodb.net:27017,cluster0-shard-00-01-tvcny.mongodb.net:27017,cluster0-shard-00-02-tvcny.mongodb.net:27017/shop?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true')
-  .then(client => {
-    console.log('Connected!');
-    _db = client.db();
-    callback();
-  })
-  .catch(err => {
-    console.log(err)
-    throw err;
-  });
-}
+const mongoConnect = callback => {
+  MongoClient.connect(
+    'mongodb+srv://maximilian:9u4biljMQc4jjqbe@cluster0-ntrwp.mongodb.net/shop?retryWrites=true'
+  )
+    .then(client => {
+      console.log('Connected!');
+      _db = client.db();
+      callback();
+    })
+    .catch(err => {
+      console.log(err);
+      throw err;
+    });
+};
 
 const getDb = () => {
   if (_db) {
     return _db;
   }
-  throw 'No databasee found';
-}
+  throw 'No database found!';
+};
 
-
-module.exports.mongoConnect = mongoConnect;
-module.exports.getDb = getDb;
+exports.mongoConnect = mongoConnect;
+exports.getDb = getDb;
